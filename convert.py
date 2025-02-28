@@ -1,31 +1,26 @@
 from PIL import Image
 import csv
 import math
+import os
+from pathlib import Path
+
+dir = os.getcwd()
 
 #Import images here. Use full pathways to indicate.
 
-landImages = [r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 1.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 2.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 3.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 4.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 6.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 5.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 7.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 8.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 9.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 10.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 11.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 12.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 13.jpg',
-          r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Land 14.jpg',]
+landImages = [os.path.join(dir, 'Images', 'Land 1.jpg'),
+          os.path.join(dir, 'Images', 'Land 2.jpg'),
+          os.path.join(dir, 'Images', 'Land 3.jpg'),
+          os.path.join(dir, 'Images', 'Land 4.jpg'),
+          os.path.join(dir, 'Images', 'Land 6.jpg'),
+          os.path.join(dir, 'Images', 'Land 5.jpg'),
+          os.path.join(dir, 'Images', 'Land 7.jpg'),
+          os.path.join(dir, 'Images', 'Land 8.jpg')]
 
-waterImages = [r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 1.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 7.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 6.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 5.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 4.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 3.jpg',
-               r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\Images\Water 2.jpg']
+waterImages = [os.path.join(dir, 'Images', 'Water 1.jpg'),
+               os.path.join(dir, 'Images', 'Water 4.jpg'),
+               os.path.join(dir, 'Images', 'Water 3.jpg'),
+               os.path.join(dir, 'Images', 'Water 2.jpg')]
 
 CSVData = []
 
@@ -82,8 +77,8 @@ for file in landImages: #formatting land images for model, model requires RGB fo
     for x in range(width): #recording the RGB values for pixels in land images
         for y in range (height):
             r, g, b = image.getpixel((x, y))
-            hex_color = [scaleUp(r), scaleDown(g), scaleDown(b)]
-            # hex_color = [r, g, b]
+            # hex_color = [scaleUp(r), scaleDown(g), scaleDown(b)]
+            hex_color = [r, g, b]
             hex_colors.append(hex_color)
     
     for row in hex_colors:
@@ -99,8 +94,8 @@ for file in waterImages: #formatting water images for model, model requires RGB 
     for x in range(width): #recording the RGB values for pixels in water images
         for y in range (height):
             r, g, b = image.getpixel((x, y))
-            hex_color = [scaleUp(r), scaleDown(g), scaleDown(b)]
-            # hex_color = [r, g, b]
+            # hex_color = [scaleUp(r), scaleDown(g), scaleDown(b)]
+            hex_color = [r, g, b]
             hex_colors.append(hex_color)
     
     for row in hex_colors:
@@ -109,7 +104,7 @@ for file in waterImages: #formatting water images for model, model requires RGB 
 
 CSVData = removeConflictLists(CSVData) #creating final data file
 
-with open(r'C:\Users\Jekam\Documents\03-Projects\Project Awareness\new.csv', 'w', newline='') as csvfile: #storing CSV file with data. add your own pathway to store file.
+with open(os.path.join(dir, r'testdata.csv'), 'w', newline='') as csvfile: #storing CSV file with data. add your own pathway to store file.
     hexWriter = csv.writer(csvfile, delimiter=',', quotechar="|")
     for row in CSVData:
         hexWriter.writerow(row)
